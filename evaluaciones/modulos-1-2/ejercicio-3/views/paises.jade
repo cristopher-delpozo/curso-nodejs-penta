@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+    h1= title 
+    p Listado de #{title}
+    ul 
+    div
+      table(class='zui-table') 
+        thead
+          tr 
+            th Pais 
+            th Habitantes 
+        tbody 
+          each pais in paises 
+            tr 
+              td #{pais.nombre}
+              td #{pais.habitantes} 

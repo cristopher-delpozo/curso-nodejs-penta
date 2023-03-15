@@ -1,0 +1,24 @@
+extends layout 
+
+block content 
+    h1= title 
+    p Listado de #{title}
+    ul 
+    div
+      table(class='zui-table')  
+        thead
+          tr 
+            th Rut 
+            th Nombre
+            th Apellido Paterno 
+            th Apellido Materno
+            th Edad
+        tbody 
+          each cliente in clientes 
+            tr 
+              td #{cliente.rut}
+              td #{cliente.nombre} 
+              td #{cliente.apellidoPaterno}
+              td #{cliente.apellidoMaterno} 
+              td #{cliente.edad}
+              

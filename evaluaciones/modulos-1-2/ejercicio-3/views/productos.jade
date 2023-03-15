@@ -1,0 +1,19 @@
+extends layout 
+
+block content 
+    h1= title 
+    p Listado de #{title}
+    ul 
+    div
+      table(class='zui-table')  
+        thead
+          tr 
+            th Código 
+            th Nombre
+            th Precio 
+        tbody 
+          each producto in productos 
+            tr 
+              td #{producto.codigo}
+              td #{producto.nombre} 
+              td #{producto.precio}
