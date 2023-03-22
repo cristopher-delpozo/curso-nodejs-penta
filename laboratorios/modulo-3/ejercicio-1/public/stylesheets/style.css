@@ -1,0 +1,85 @@
+/* Fuentes */
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap');
+
+/* Estilos de página */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+th {
+  text-align: left;
+  font-weight: 700;
+  padding: 12px;
+  border-bottom: 2px solid #ddd;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Estilos personalizados para plataforma financiera */
+.financial {
+  background-color: #fff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.financial h1 {
+  color: #005dff;
+  text-align: center;
+}
+
+.financial table {
+  margin: 0 auto;
+  width: 90%;
+  border: none;
+  border-radius: 8px;
+}
+
+.financial th {
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 14px;
+  padding: 10px;
+  text-align: left;
+}
+
+.financial td {
+  font-size: 14px;
+  color: #666;
+  padding: 10px;
+}
+
+.financial tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.financial tr:hover {
+  background-color: #f5f5f5;
+}

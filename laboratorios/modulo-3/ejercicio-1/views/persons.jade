@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  table
+      tr
+        th BusinessEntityID
+        th PersonType
+        th NameStyle
+        th Title
+        th FirstName
+        th MiddleName
+        th LastName
+        th EmailPromotion
+        th Demographics
+        th rowguid
+        th ModifiedDate
+      each row in rows
+        tr
+          td= row.BusinessEntityID
+          td= row.PersonType
+          td= row.NameStyle
+          td= row.Title
+          td= row.FirstName
+          td= row.MiddleName
+          td= row.LastName
+          td= row.EmailPromotion
+          td= row.Demographics
+          td= row.rowguid
+          td= row.ModifiedDate

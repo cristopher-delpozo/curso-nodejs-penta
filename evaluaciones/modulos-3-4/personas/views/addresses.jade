@@ -1,0 +1,47 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Direcciones
+    link(rel="stylesheet", href="/stylesheets/style.css")
+
+  body
+    h1 Agregar una dirección
+    form#address-form(action="/addresses", method="post")
+      label(for="AddressLine1") Address Line 1:
+      input#AddressLine1(type="text", name="AddressLine1", required)
+
+      label(for="AddressLine2") Address Line 2:
+      input#AddressLine2(type="text", name="AddressLine2")
+
+      label(for="City") City:
+      input#City(type="text", name="City", required)
+
+      label(for="StateProvinceID") State Province ID:
+      input#StateProvinceID(type="number", name="StateProvinceID", required)
+
+      label(for="PostalCode") Postal Code:
+      input#PostalCode(type="text", name="PostalCode", required)
+
+      button(type="submit") Add Address
+
+    h2 Direcciones
+    table#address-table
+      thead
+        tr
+          th AddressID
+          th Address Line 1
+          th Address Line 2
+          th City
+          th State Province ID
+          th Postal Code
+      tbody
+        each address in addresses
+          tr
+            td= address.AddressID
+            td= address.AddressLine1
+            td= address.AddressLine2
+            td= address.City
+            td= address.StateProvinceID
+            td= address.PostalCode

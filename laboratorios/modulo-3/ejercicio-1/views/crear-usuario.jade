@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= title
+    link(rel="stylesheet", href="/stylesheets/crear-usuario.css")
+  body
+    div.container
+      h1= title
+      form(action="/usuarios", method="POST")
+        div.form-group
+          label(for="username") Nombre de usuario:
+          input(type="text", id="username", name="username", placeholder="Nombre de usuario", required)
+        div.form-group
+          label(for="password") Contraseña:
+          input(type="password", id="password", name="password", placeholder="Contraseña", required)
+        button(type="submit") Grabar
+      if resultMessage
+        div.result-message(class=resultMessage === 'Usuario creado exitosamente' ? '' : 'error')
+            label(id="resultMessage") #{resultMessage}
