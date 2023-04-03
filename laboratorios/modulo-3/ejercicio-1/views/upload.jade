@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title #{title}
+    link(rel='stylesheet', href='/stylesheets/login.css')
+  body
+    .container
+      h1 #{title}
+      form(action="/upload", method="POST", enctype="multipart/form-data")
+        .form-group
+          label(for="archivo") Seleccionar archivo:
+          input#archivo(type="file", name="archivo", required)
+        .form-group
+          button(type="submit") Subir archivo

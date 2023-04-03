@@ -16,6 +16,16 @@ html(lang="en")
           label(for="password") Contraseña:
           input(type="password", id="password", name="password", placeholder="Contraseña", required)
         button(type="submit") Grabar
+        button(type="button", onclick="window.location.href='/upload'") Cargar archivo
       if resultMessage
         div.result-message(class=resultMessage === 'Usuario creado exitosamente' ? '' : 'error')
             label(id="resultMessage") #{resultMessage}
+    div.table-container        
+      table
+        tr
+          th Usuario
+          th Clave
+        each usuario in usuarios
+          tr
+            td= usuario.username
+            td= usuario.clave

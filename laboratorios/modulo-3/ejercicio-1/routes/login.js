@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const { Connection, Request } = require('tedious');
+const { Connection, Request, TYPES } = require('tedious');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const configBD = {
     server: '10.7.0.13',
@@ -19,8 +20,12 @@ const configBD = {
     }
 };
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', (req, res) => {
+    res.render('login', { title: 'Iniciar sesión' });
+});
+
+router.post('/', async (req, res) => {
+    const { username, password } = req.body;
     const connection = new Connection(configBD);
 
     connection.on('connect', async (err) => {
@@ -31,50 +36,22 @@ router.get('/', function (req, res, next) {
         }
 
         try {
-            const sql = `SELECT username, clave FROM dbo.coredeclientes`;
-            const result = await executeQuery(connection, sql, []);
-            res.render('crear-usuario', { title: 'Crear Usuario', usuarios: result });
+            const findUserResults = await executeQuery(connection, 'SELECT username, clave FROM dbo.coredeclientes WHERE username = @username', [{ name: 'username', type: TYPES.VarChar, value: username }]);
+            const user = findUserResults.find((u) => u.username === username);
+
+            if (user && bcrypt.compareSync(password, user.clave)) {
+                const token = jwt.sign({ name: user.username }, 'xyz', { expiresIn: '1h' });
+                req.session.token = token;
+                res.redirect('/usuarios');
+            } else {
+                res.status(401).send('Usuario o contraseña incorrecta');
+            }
         } catch (err) {
             console.error(err.message);
             res.render('error', { message: 'Error executing the query', error: { status: 500, stack: err.stack } });
         } finally {
             connection.close();
         }
-    });
-
-    connection.connect();    
-});
-
-router.post('/', function (req, res, next) {
-    const { username, password } = req.body;
-
-    const connection = new Connection(configBD);
-
-    connection.on('connect', (err) => {
-        if (err) {
-            console.error(`Connection error: ${err}`);
-            res.render('crear-usuario', { title: 'Crear Usuario', resultMessage: 'Error connecting to the database' });
-            connection.close();
-            return;
-        }
-
-        const query = `INSERT INTO coredeclientes (username, clave) VALUES ('${username}', '${bcrypt.hashSync(password, bcrypt.genSaltSync(10))}')`;
-
-        const request = new Request(query, (err) => {
-            if (err) {
-                console.error(`Request error: ${err}`);
-                res.render('crear-usuario', { title: 'Crear Usuario', resultMessage: 'Error executing the query' });
-                connection.close(); 
-                return;
-            }
-        });
-
-        request.on('requestCompleted', () => {
-            res.render('crear-usuario', { title: 'Crear Usuario', resultMessage: 'Usuario creado exitosamente' });
-            connection.close(); 
-        });
-
-        connection.execSql(request);
     });
 
     connection.connect();

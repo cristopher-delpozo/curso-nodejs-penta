@@ -7,6 +7,10 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var personsRouter = require('./routes/persons');
 var usuariosRouter = require('./routes/usuarios');
+var loginRouter = require('./routes/login');
+var uploadRouter = require('./routes/upload');
+const { ensureAuthenticated } = require('./middlewares/auth');
+const session = require('express-session');
 
 var app = express();
 
@@ -19,10 +23,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  session({
+      secret: 'shhhhhh',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: false }
+  })
+);
+app.use(ensureAuthenticated);
 
 app.use('/', indexRouter);
 app.use('/persons', personsRouter);
 app.use('/usuarios', usuariosRouter);
+app.use('/login', loginRouter);
+app.use('/upload', uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

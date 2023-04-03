@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title #{title}
+    link(rel='stylesheet', href='/stylesheets/login.css')
+  body
+    .container
+      h1 #{title}
+      form(action="/login", method="POST")
+        .form-group
+          label(for="username") Usuario:
+          input#username(type="text", name="username", required)
+        .form-group
+          label(for="password") Contraseña:
+          input#password(type="password", name="password", required)
+        .form-group
+          button(type="submit") Iniciar sesión
