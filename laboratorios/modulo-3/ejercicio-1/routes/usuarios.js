@@ -19,6 +19,8 @@ const configBD = {
     }
 };
 
+let usuarios = [];
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
     const connection = new Connection(configBD);
@@ -32,8 +34,8 @@ router.get('/', function (req, res, next) {
 
         try {
             const sql = `SELECT username, clave FROM dbo.coredeclientes`;
-            const result = await executeQuery(connection, sql, []);
-            res.render('crear-usuario', { title: 'Crear Usuario', usuarios: result });
+            usuarios = await executeQuery(connection, sql, []);
+            res.render('crear-usuario', { title: 'Crear Usuario', usuarios: usuarios });
         } catch (err) {
             console.error(err.message);
             res.render('error', { message: 'Error executing the query', error: { status: 500, stack: err.stack } });
@@ -53,7 +55,7 @@ router.post('/', function (req, res, next) {
     connection.on('connect', (err) => {
         if (err) {
             console.error(`Connection error: ${err}`);
-            res.render('crear-usuario', { title: 'Crear Usuario', resultMessage: 'Error connecting to the database' });
+            res.render('crear-usuario', { title: 'Crear Usuario', resultMessage: 'Error connecting to the database', usuarios: usuarios });
             connection.close();
             return;
         }
@@ -63,14 +65,14 @@ router.post('/', function (req, res, next) {
         const request = new Request(query, (err) => {
             if (err) {
                 console.error(`Request error: ${err}`);
-                res.render('crear-usuario', { title: 'Crear Usuario', resultMessage: 'Error executing the query' });
+                res.render('crear-usuario', { title: 'Crear Usuario', resultMessage: 'Error executing the query', usuarios: usuarios });
                 connection.close(); 
                 return;
             }
         });
 
         request.on('requestCompleted', () => {
-            res.render('crear-usuario', { title: 'Crear Usuario', resultMessage: 'Usuario creado exitosamente' });
+            res.render('crear-usuario', { title: 'Crear Usuario', resultMessage: 'Usuario creado exitosamente', usuarios: usuarios });
             connection.close(); 
         });
 
